@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:glonur/pages/landing_page.dart';
-
+//import 'package:glonur/pages/landing_page.dart';
+import 'package:glonur/pages/appbar.dart';
 void main() {
   runApp(MyApp());
 }
@@ -10,10 +10,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text("Glonur Doctor"),
-        ),
-        body: HomePage(),
+        body:Appbarpage(), 
+        //HomePage(),
       ),
     );
   }
