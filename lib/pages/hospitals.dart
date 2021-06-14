@@ -83,10 +83,12 @@ class _HospitalListState extends State<HospitalList> {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text(
-                                  hospitalsList[i].name,
-                                  style: TextStyle(
-                                      color: Colors.red, fontSize: 25),
+                                FittedBox(
+                                  fit: BoxFit.fitWidth,
+                                  child: Text(
+                                    hospitalsList[i].name,
+                                    style: TextStyle(color: Colors.red),
+                                  ),
                                 )
                               ]),
                               Divider(
@@ -121,8 +123,12 @@ class _HospitalListState extends State<HospitalList> {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text(hospitalsList[i].category,
-                                    style: TextStyle(fontSize: 20))
+                                FittedBox(
+                                  fit: BoxFit.fitWidth,
+                                  child: Text(
+                                    hospitalsList[i].providerType,
+                                  ),
+                                )
                               ]),
                               Row(children: [
                                 Icon(Icons.clean_hands_sharp),
