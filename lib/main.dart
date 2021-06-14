@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glonur/pages/home.dart';
+import 'package:glonur/pages/hospitals.dart';
 import 'package:glonur/pages/settings.dart';
 
 void main() {
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           ],
         ),
         drawer: Settings(),
-        body: HomePage(),
+        body: HospitalList(),
       ),
     );
   }

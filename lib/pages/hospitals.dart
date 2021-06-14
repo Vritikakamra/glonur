@@ -34,21 +34,19 @@ class _HospitalListState extends State<HospitalList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton.extended(
+        elevation: 0,
         onPressed: () {},
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(),
-        label: Row(
-          children: [
-            Text("Filter",
-                style: TextStyle(
-                  color: Colors.black,
-                )),
-            Icon(
-              Icons.filter_alt_sharp,
+        label: Text("Filter",
+            style: TextStyle(
               color: Colors.black,
-            )
-          ],
+            )),
+        icon: Icon(
+          Icons.filter_alt,
+          color: Colors.black,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
