@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glonur/classes/hospital.dart';
+import 'package:glonur/pages/filters.dart';
+import 'package:glonur/pages/list_view.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -9,7 +11,8 @@ class HospitalList extends StatefulWidget {
 }
 
 class _HospitalListState extends State<HospitalList> {
-  List hospitalsList;
+  List hospitalsList, hospList;
+  bool nowOpen = false;
   Future getHospitalData() async {
     var response =
         await http.get(Uri.https('testapi.io', 'api/aravindh/hospitals'));
@@ -21,6 +24,7 @@ class _HospitalListState extends State<HospitalList> {
       hospitals.add(hosp);
     }
     this.setState(() {
+      hospList = hospitals;
       hospitalsList = hospitals;
     });
   }
@@ -37,7 +41,20 @@ class _HospitalListState extends State<HospitalList> {
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton.extended(
         elevation: 0,
-        onPressed: () {},
+        onPressed: () async {
+          var filters = await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Filters(nowOpen: this.nowOpen);
+              });
+          setState(() {
+            if (filters != null) {
+              nowOpen = filters[0];
+              if (nowOpen == true)
+                hospitalsList.where((hosp) => hosp.open == "Open");
+            }
+          });
+        },
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(),
         label: Text("Filter",
@@ -58,92 +75,10 @@ class _HospitalListState extends State<HospitalList> {
               height: 50,
             ),
             Container(
-              padding: EdgeInsets.all(5),
-              child: hospitalsList == null
-                  ? Text("Loading")
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: hospitalsList.length,
-                      itemBuilder: (context, i) {
-                        return Container(
-                          padding: EdgeInsets.all(10),
-                          margin: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.pink[200]),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5))),
-                          child: Column(
-                            children: [
-                              Row(children: [
-                                Icon(
-                                  Icons.local_hospital_outlined,
-                                  color: Colors.red,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                FittedBox(
-                                  fit: BoxFit.fitWidth,
-                                  child: Text(
-                                    hospitalsList[i].name,
-                                    style: TextStyle(color: Colors.red),
-                                  ),
-                                )
-                              ]),
-                              Divider(
-                                color: Colors.grey[900],
-                              ),
-                              Row(children: [
-                                Icon(Icons.location_on_outlined),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(hospitalsList[i].location,
-                                    style: TextStyle(fontSize: 20))
-                              ]),
-                              Row(children: [
-                                Icon(Icons.where_to_vote_outlined),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(hospitalsList[i].category,
-                                    style: TextStyle(fontSize: 20)),
-                              ]),
-                              Row(children: [
-                                Icon(Icons.close),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(hospitalsList[i].open,
-                                    style: TextStyle(fontSize: 20))
-                              ]),
-                              Row(children: [
-                                Icon(Icons.account_balance_wallet_rounded),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                FittedBox(
-                                  fit: BoxFit.fitWidth,
-                                  child: Text(
-                                    hospitalsList[i].providerType,
-                                  ),
-                                )
-                              ]),
-                              Row(children: [
-                                Icon(Icons.clean_hands_sharp),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(hospitalsList[i].foundedOn,
-                                    style: TextStyle(fontSize: 20))
-                              ]),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-            ),
+                padding: EdgeInsets.all(5),
+                child: hospitalsList == null
+                    ? Text("Loading")
+                    : CustomListView(hospitalsList: hospitalsList)),
           ],
         ),
       ),
